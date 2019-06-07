@@ -1,17 +1,22 @@
 import actiontypes from '../actions/types';
 
 export default function(state={
-  TotalItems:[]
+  users:[]
 },action){
-  console.log("action.....12.......",action)
-    switch (action.type){
-    
-        case actiontypes.ADD_ITEM:
-        return {
-          ...state,
-          TotalItems:action.payload,
-        };
-        default:
-              return state;
-      }
+  switch (action.type){
+  
+      case actiontypes.ADD_ITEM:
+      return {
+        ...state,
+        users:action.payload,
+      };
+
+      case actiontypes.REMOVE_ITEM:
+      return {
+        ...state,
+        users:action.payload,
+      };
+      default:
+            return state;
+    }
 }

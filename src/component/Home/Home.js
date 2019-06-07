@@ -2,32 +2,30 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import DeleteConfirm from '../Modals/DeleteConfirm';
-import { AddItemsToList } from './store/actions'
+import { ToDoList } from './store/actions'
 import { Button } from 'react-bootstrap';
-
 class Home extends Component {
+  
   constructor(props) {
-    super(props)
+    super(props);
+
     this.state = {
       list: [],
       confirmDelete: false
     }
-    this.delete = this.delete.bind(this);
-    this.handleClose = this.handleClose.bind(this)
   }
 
   handleChange = (e) => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     })
   }
 
-  delete(index) {
+  onDelete(index) {
     this.setState({
       confirmDelete: true,
-      index: index
+      index: index,
     })
-
   }
 
   addValueToList = () => {
@@ -37,22 +35,19 @@ class Home extends Component {
       list.push(this.state.username)
       this.setState({
         list
-      }, () => { this.setState({ username: '' }) })
+      }, () => { 
+        this.props.addItems(list);
+        this.setState({ username: '' }) 
+      })
     }
-
   }
 
   handleClose = (stateValue) => {
-    if (stateValue === 'Yes') {
-      this.setState({
-        list: this.state.list.filter((_, j) => j !== this.state.index)
-      })
-    } else {
-      this.setState({
-        index: ''
-      })
-    }
-
+    if (stateValue === 'Yes') 
+      this.props.removeItems(this.props.listOfUsers,this.state.index)
+    else 
+      this.setState({ index: '' })
+    
     this.setState({
       confirmDelete: !this.state.confirmDelete
     })
@@ -67,9 +62,12 @@ class Home extends Component {
           <Button onClick={this.addValueToList}>Add</Button>
           <ul>
             {
-              this.state.list.map((data, i) => (
-                <li key={i}>{data} <button onClick={() => this.delete(i)}>delete</button></li>
-              ))
+              this.props.listOfUsers.length > 0 && 
+                this.props.listOfUsers.map((data, i) => (
+                    <li key={i}>{data} <Button onClick={() => this.onDelete(i)}>delete</Button>
+                    <Button onClick={() => this.editList(i)}>Edit</Button>
+                    </li>
+                  ))
             }
           </ul>
         </div>
@@ -85,10 +83,12 @@ class Home extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    username: state.login.username
+    username: state.login.username,
+    listOfUsers:state.listOfUsers.users 
   }
 };
 
 export default withRouter(connect(mapStateToProps, {
-  addItems: AddItemsToList.addItem
+  addItems: ToDoList.addItem,
+  removeItems: ToDoList.removeItem,
 })(Home));

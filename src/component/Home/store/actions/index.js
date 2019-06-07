@@ -1,4 +1,5 @@
-import * as AddItemsToList from './actions';
+import * as ToDoList from './actions';
+
 export {
-    AddItemsToList
+    ToDoList
 }
