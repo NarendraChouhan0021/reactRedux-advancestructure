@@ -1,14 +1,15 @@
-import t from '../../actions/login/types';
+import actiontypes from '../actions/types';
 
 export default function(state={
-    username:''
+  TotalItems:[]
 },action){
+  console.log("action.....12.......",action)
     switch (action.type){
     
-        case actiontypes.AUTH_USER:
+        case actiontypes.ADD_ITEM:
         return {
           ...state,
-         user: action.payload
+          TotalItems:action.payload,
         };
         default:
               return state;

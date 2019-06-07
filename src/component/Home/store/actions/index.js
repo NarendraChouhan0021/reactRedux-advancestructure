@@ -1,4 +1,4 @@
-import * as LoggedUser from './login/actions';
+import * as AddItemsToList from './actions';
 export {
-    LoggedUser
+    AddItemsToList
 }
