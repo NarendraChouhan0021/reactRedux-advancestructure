@@ -6,9 +6,9 @@ export default function(state={
   switch (action.type){
   
       case actiontypes.ADD_ITEM:
-      return {
-        ...state,
-        users:action.payload,
+          state.users.push(action.payload)     
+        return {
+        ...state
       };
 
       case actiontypes.REMOVE_ITEM:

@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import DeleteConfirm from '../Modals/DeleteConfirm';
-import { ToDoList } from './store/actions'
+import { ToDoList } from './store/actions/index'
 import { Button } from 'react-bootstrap';
+
 class Home extends Component {
   
   constructor(props) {
     super(props);
-
     this.state = {
       list: [],
-      confirmDelete: false
+      confirmDelete: false,
+      username:''
     }
   }
 
@@ -29,17 +30,12 @@ class Home extends Component {
   }
 
   addValueToList = () => {
-    let { list } = this.state;
+    this.props.addItems(this.state.username);
+    this.setState({ username: '' }) 
+  }
 
-    if (this.state.username) {
-      list.push(this.state.username)
-      this.setState({
-        list
-      }, () => { 
-        this.props.addItems(list);
-        this.setState({ username: '' }) 
-      })
-    }
+  editList=(i)=>{
+    console.log(this.props.listOfUsers[i])
   }
 
   handleClose = (stateValue) => {
@@ -74,6 +70,11 @@ class Home extends Component {
         {
           this.state.confirmDelete ?
             <DeleteConfirm showModal={this.state.confirmDelete} handleClose={this.handleClose} />
+            : null
+        }
+        {
+          this.state.editMode ?
+            <DeleteConfirm showModal={this.state.editMode} handleClose={this.handleClose} />
             : null
         }
       </React.Fragment>
