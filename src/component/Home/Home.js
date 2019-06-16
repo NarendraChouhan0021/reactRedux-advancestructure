@@ -22,7 +22,6 @@ class Home extends Component {
   }
 
   handleChange = (e) => {
-    console.log("fbfsdfsd")
     this.setState({
       [e.target.name]: e.target.value,
     })
@@ -38,6 +37,7 @@ class Home extends Component {
   addValueToList = () => {
   
     this.props.addItems({
+      id:Date.now(),
       username:this.state.username,
       lastname:this.state.lastname,
       age:this.state.age,
@@ -49,7 +49,6 @@ class Home extends Component {
   }
 
   editList=(i)=>{
-    console.log("ffsdfsdfd")
     this.setState({
       editMode: true,
       index: i,
@@ -81,7 +80,9 @@ class Home extends Component {
             {
               this.props.listOfUsers.length > 0 && 
                 this.props.listOfUsers.map((data, i) => (
-                    <li key={i}>{data.username } <Button onClick={() => this.onDelete(i)}>delete</Button>
+                    <li key={i}>FirstName:{data.username }
+                    Contactno:{data.contactno }Age:{data.age }
+                     <Button onClick={() => this.onDelete(i)}>delete</Button>
                     <Button onClick={() => this.editList(i)}>Edit</Button>
                     </li>
                   ))
