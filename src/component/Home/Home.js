@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import EditModel from '../Modals/EditModel';
+
 import DeleteConfirm from '../Modals/DeleteConfirm';
 import { ToDoList } from './store/actions/index'
 import { Button } from 'react-bootstrap';
@@ -12,11 +14,15 @@ class Home extends Component {
     this.state = {
       list: [],
       confirmDelete: false,
-      username:''
+      username:'',
+      lastname:'',
+      age:'',
+      contactno:''
     }
   }
 
   handleChange = (e) => {
+    console.log("fbfsdfsd")
     this.setState({
       [e.target.name]: e.target.value,
     })
@@ -30,12 +36,24 @@ class Home extends Component {
   }
 
   addValueToList = () => {
-    this.props.addItems(this.state.username);
-    this.setState({ username: '' }) 
+  
+    this.props.addItems({
+      username:this.state.username,
+      lastname:this.state.lastname,
+      age:this.state.age,
+      contactno:this.state.contactno
+    });
+    this.setState({ username: '',lastname:'',
+    age:'',
+    contactno:'' }) 
   }
 
   editList=(i)=>{
-    console.log(this.props.listOfUsers[i])
+    console.log("ffsdfsdfd")
+    this.setState({
+      editMode: true,
+      index: i,
+    })
   }
 
   handleClose = (stateValue) => {
@@ -53,14 +71,17 @@ class Home extends Component {
     return (
       <React.Fragment>
         <div>
-          <h1>List of Users</h1>
-          Add User <input name="username" value={this.state.username} onChange={(e) => this.handleChange(e)} />
+          <h1>List of Users Add User </h1>
+          User Name : <input name="username" value={this.state.username} onChange={(e) => this.handleChange(e)} />
+          Last Name : <input name="lastname" value={this.state.lastname} onChange={(e) => this.handleChange(e)} />
+          Age : <input name="age" value={this.state.age} onChange={(e) => this.handleChange(e)} />
+          Contact No. : <input name="contactno" value={this.state.contactno} onChange={(e) => this.handleChange(e)} />
           <Button onClick={this.addValueToList}>Add</Button>
           <ul>
             {
               this.props.listOfUsers.length > 0 && 
                 this.props.listOfUsers.map((data, i) => (
-                    <li key={i}>{data} <Button onClick={() => this.onDelete(i)}>delete</Button>
+                    <li key={i}>{data.username } <Button onClick={() => this.onDelete(i)}>delete</Button>
                     <Button onClick={() => this.editList(i)}>Edit</Button>
                     </li>
                   ))
@@ -74,7 +95,10 @@ class Home extends Component {
         }
         {
           this.state.editMode ?
-            <DeleteConfirm showModal={this.state.editMode} handleClose={this.handleClose} />
+           
+          <EditModel editdetails={this.props.listOfUsers[this.state.index]}
+            showModal={this.state.editMode} handleClose={this.handleClose} handleChange={this.handleChange}
+          />
             : null
         }
       </React.Fragment>

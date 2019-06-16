@@ -1,6 +1,7 @@
 import t from "./types"
 
 export function addItem(payload) {
+    console.log("payload..............",payload)
     return { type: t.ADD_ITEM, payload:payload }
 };
 
