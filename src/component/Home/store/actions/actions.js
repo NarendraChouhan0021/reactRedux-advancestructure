@@ -9,3 +9,8 @@ export function removeItem(payload,index) {
     let listArray=payload.filter((_, j) => j !== index)
     return { type: t.REMOVE_ITEM, payload:listArray }
 };
+
+export function updateItem(payload) {
+    console.log("payload..............",payload)
+    return { type: t.UPDATE_ITEM, payload:payload }
+};

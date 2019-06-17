@@ -98,7 +98,7 @@ class Home extends Component {
           this.state.editMode ?
            
           <EditModel editdetails={this.props.listOfUsers[this.state.index]}
-            showModal={this.state.editMode} handleClose={this.handleClose} handleChange={this.handleChange}
+            showModal={this.state.editMode} handleClose={this.handleClose}
           />
             : null
         }
